@@ -1,0 +1,23 @@
+# Build outputs
+build/
+dist/
+out/
+
+# Gradle
+.gradle/
+
+# Node / TypeScript
+node_modules/
+ts/*.tsbuildinfo
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+
+# Local session artifacts (not part of the published project)
+odd/
+.atl/
