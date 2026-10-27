@@ -73,21 +73,31 @@ public final class NpubNames {
 
     private static byte[] canonicalize(String input) {
         if (input.regionMatches(true, 0, "npub1", 0, 5)) {
-            Bech32.Decoded decoded = Bech32.decode(input);
-            if (!decoded.hrp().equals("npub")) {
-                throw new IllegalArgumentException("bech32 HRP must be npub, got: " + decoded.hrp());
-            }
-            if (decoded.data().length != 32) {
-                throw new IllegalArgumentException(
-                    "npub payload must be 32 bytes, got " + decoded.data().length);
-            }
-            return decoded.data();
+            return npubBytes(input);
         }
         if (input.length() == 64 && isHex(input)) {
             return HexFormat.of().parseHex(input);
         }
+        // Any other bech32-shaped string gets the precise reason it is rejected:
+        // a valid bech32 with the wrong HRP (e.g. an accidentally pasted nsec) says so.
+        if (input.matches("(?i)[a-z0-9]+1[a-z0-9]+")) {
+            Bech32.Decoded decoded = Bech32.decode(input);
+            throw new IllegalArgumentException("bech32 HRP must be npub, got: " + decoded.hrp());
+        }
         throw new IllegalArgumentException(
             "unrecognized identifier: expected an npub (bech32) or a 64-character hex pubkey");
+    }
+
+    private static byte[] npubBytes(String input) {
+        Bech32.Decoded decoded = Bech32.decode(input);
+        if (!decoded.hrp().equals("npub")) {
+            throw new IllegalArgumentException("bech32 HRP must be npub, got: " + decoded.hrp());
+        }
+        if (decoded.data().length != 32) {
+            throw new IllegalArgumentException(
+                "npub payload must be 32 bytes, got " + decoded.data().length);
+        }
+        return decoded.data();
     }
 
     private static boolean isHex(String s) {

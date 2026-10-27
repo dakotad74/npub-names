@@ -1,0 +1,32 @@
+{
+  "name": "npub-names",
+  "version": "0.1.0",
+  "description": "Deterministic human names from Nostr public keys (npub/hex). Zero dependencies.",
+  "type": "module",
+  "license": "MIT",
+  "author": "dakotad74",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dakotad74/npub-names.git"
+  },
+  "keywords": [
+    "nostr",
+    "npub",
+    "deterministic",
+    "names",
+    "bech32"
+  ],
+  "exports": {
+    ".": "./src/npubnames.ts"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/npubnames.test.ts"
+  },
+  "engines": {
+    "node": ">=22.18"
+  }
+}
